@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 const Message = require('./messageModel');
 
@@ -20,8 +20,9 @@ const User = sequelize.define('User', {
   gender: {
     type: DataTypes.STRING,
   },
-  password: DataTypes.STRING,
-  username: DataTypes.STRING,
+  username: {
+    type: DataTypes.STRING,
+  },
 });
 
 User.hasMany(Message, { foreignKey: 'senderId', as: 'sentMessages' });

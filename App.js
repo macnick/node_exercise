@@ -34,6 +34,11 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/messages', messageRouter);
+app.use('/', (req, res) => {
+  res.status(200).json({
+    message: 'Welcome to the Node.js exercise!',
+  });
+});
 
 app.use((req, res, next) => {
   const error = new Error('No route was found for this request!');
@@ -49,5 +54,15 @@ app.use((error, req, res, next) => {
     },
   });
 });
+
+const sequelize = require('./db');
+sequelize
+  .sync()
+  .then(() => {
+    console.log('Synced db.');
+  })
+  .catch((err) => {
+    console.log('Failed to sync db: ' + err.message);
+  });
 
 module.exports = app;

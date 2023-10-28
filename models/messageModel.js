@@ -1,10 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const User = require('./userModel');
 
-const sequelize = new Sequelize(
-  'postgres://pccw_user:pccw_password@postgres_db:5432/pccw_db'
-);
+const User = require('./userModel');
 
 const Message = sequelize.define('Message', {
   id: {
@@ -33,4 +30,4 @@ const Message = sequelize.define('Message', {
 Message.belongsTo(User, { foreignKey: 'senderId', as: 'sender' });
 Message.belongsTo(User, { foreignKey: 'receiverId', as: 'receiver' });
 
-Message.module.exports = Message;
+module.exports = Message;
