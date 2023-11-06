@@ -1,15 +1,17 @@
 const express = require('express');
 const {
+  allMessages,
   newMessage,
   updateMessage,
   messagesBetweenUsers,
+  searchMessages,
 } = require('../controllers/messageController');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => res.send('Hello from messages route!'));
-router.post('/', newMessage);
+router.get('/find', searchMessages);
 router.patch('/:id', updateMessage);
 router.get('/:user1/:user2', messagesBetweenUsers);
+router.route('/').get(allMessages).post(newMessage);
 
 module.exports = router;

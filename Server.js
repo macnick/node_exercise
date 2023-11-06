@@ -11,12 +11,6 @@ async function connectToDb() {
   }
 }
 
-console.log(
-  'process.env is',
-  `${process.env.POSTGRES_USER}`,
-  `${process.env.POSTGRES_DB}`
-);
-
 const postgresClient = connectToDb();
 
 const port = 3000;

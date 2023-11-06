@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const Message = require('./messageModel');
 
 const User = sequelize.define('User', {
   id: {
@@ -25,7 +24,37 @@ const User = sequelize.define('User', {
   },
 });
 
-User.hasMany(Message, { foreignKey: 'senderId', as: 'sentMessages' });
-User.hasMany(Message, { foreignKey: 'receiverId', as: 'receivedMessages' });
+const Message = sequelize.define('Message', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  receiverId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  message: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  isRead: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+});
 
-module.exports = User;
+User.hasMany(Message, { foreignKey: 'senderId', as: 'sentMessages' });
+User.hasMany(Message, {
+  foreignKey: 'receiverId',
+  as: 'receivedMessages',
+});
+
+Message.belongsTo(User, { foreignKey: 'senderId', as: 'sender' });
+Message.belongsTo(User, { foreignKey: 'receiverId', as: 'receiver' });
+
+module.exports = { User, Message };
